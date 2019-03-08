@@ -10,10 +10,13 @@ class PaktSpider(scrapy.Spider):
 
     def parse_second_page(self, response):
         packt_record = response.meta.get("packt_record")
-        packt_record["author"] = response.css('div.book-info-bottom-author-title').xpath(".//h3/text()").extract_first().strip()
+        packt_record["author"] = response.css(
+            'div.book-info-bottom-author-title').xpath(".//h3/text()").extract_first().strip()
         packt_record["description"] = response.xpath("//meta[@name='description']/@content")[0].extract().strip()
-        packt_record["datePublished"] = response.xpath("//time[@itemprop='datePublished']/@datetime")[0].extract().strip()
-        packt_record["bookDescription"] = response.xpath("//div[@class='book-info-bottom-indetail-text']//p//node()").extract()
+        packt_record["datePublished"] = response.xpath(
+            "//time[@itemprop='datePublished']/@datetime")[0].extract().strip()
+        packt_record["bookDescription"] = response.xpath(
+            "//div[@class='book-info-bottom-indetail-text']//p//node()").extract()
         yield packt_record
 
     def parse(self, response):
